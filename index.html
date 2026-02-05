@@ -1,0 +1,967 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>OdysseyArena</title>
+  <link rel="icon" href="public/favicon.ico" />
+  <link rel="apple-touch-icon" href="public/favicon.ico" />
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Open Graph -->
+  <meta property="og:url" content="https://qiushisun.github.io/ScienceBoard-Home/" />
+  <meta property="og:image"
+    content="https://github.com/QiushiSun/ScienceBoard-Home/blob/gh-pages/static/img/scienceboard-cover.jpeg" />
+  <meta property="og:title"
+    content="OdysseyArena: Benchmarking Large Language Models For Long-Horizon, Active and Inductive Interactions" />
+  <meta property="og:description"
+    content="ScienceBoard provides a realistic environment and a diverse benchmark across six domains, enabling agents to autonomously perform scientific exploration and supporting rigorous evaluation." />
+
+  <!-- Twitter -->
+  <meta name="color-scheme" content="light">
+  <meta name="twitter:url" content="https://x.com/qiushi_sun" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image"
+    content="https://github.com/QiushiSun/ScienceBoard-Home/blob/gh-pages/static/img/scienceboard-cover.jpeg" />
+  <meta name="twitter:title"
+    content="ScienceBoard: Evaluating Multimodal Autonomous Agents in Realistic Scientific Workflows" />
+  <meta name="twitter:description"
+    content="ScienceBoard provides a realistic environment and a diverse benchmark across six domains, enabling agents to autonomously perform scientific exploration and supporting rigorous evaluation." />
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.js?features=es6"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+
+  <!-- <script src="https://d3js.org/d3.v5.min.js"></script> -->
+  <!-- <script src="https://d3js.org/d3-collection.v1.min.js"></script> -->
+  <!-- <script src="https://rawgit.com/nstrayer/slid3r/master/dist/slid3r.js"></script> -->
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <script src="./static/js/distill_template.v2.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+
+  <link rel="stylesheet" href="./static/css/nav.css">
+  <link rel="stylesheet" href="./static/css/style.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+  <script defer src="./static/js/medium-zoom.min.js"></script>
+  <script defer src="./static/js/zoom.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
+  <link rel="stylesheet" href="./static/css/supply.css">
+</head>
+
+<body>
+  <div class="header-wrapper">
+    <!-- <img src="static/img/iclr-navbar-logo-3.svg" style="height: 80px; position: absolute; top: 8px; right: 8px;"> -->
+    <div class="header-container" style="padding: 0; flex-direction: column;">
+      <!-- z-index cannot be less than 1001 -->
+      <nav class="navbar" role="navigation" style="z-index: 1001; background-color: #FFFFFF00;">
+        <div class="navbar-brand">
+          <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+        <div class="navbar-menu">
+          <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+            <!-- Dropdown menu removed -->
+          </div>
+        </div>
+      </nav>
+      <div class="header-container" id="header-container">
+        <div class="header-content">
+          <h1 style="margin-top: 0px; "><i>OdysseyArena</i></h1>
+          <h2 style="white-space: nowrap;">Benchmarking Large Language Models For Long-Horizon, Active and Inductive
+            Interactions</h2>
+          <!-- <p>
+            Introducing ScienceBoard, a first-of-its-kind evaluation platform for multimodal agents in
+            <em><strong>scientific workflows</strong></em>.
+            ScienceBoard is characterized by the following core features:
+          </p> -->
+
+          <!-- <div class="icon-container">
+            <div class="icon-item">
+              <img src="./static/img/icons/visual.svg" alt="Visual Representation Icon">
+              <div><strong>Pioneering Application</strong>: ScienceBoard is the first to bring computer-using agents
+                into the domain of scientific discovery, enabling autonomous research assistants across disciplines.
+              </div>
+            </div>
+            <div class="icon-item">
+              <img src="./static/img/icons/connector.svg" alt="Connector Design Icon">
+              <div><strong>Realistic Environment</strong>: We provide a dynamic, visually grounded virtual environment
+                integrated with professional scientific software, supporting both GUI and CLI interaction in real-time
+                workflows.</div>
+            </div>
+            <div class="icon-item">
+              <img src="./static/img/icons/data.svg" alt="Instruction Tuning Data Icon">
+              <div><strong>Challenging Benchmark</strong>: A new benchmark of 169 rigorously validated tasks across 6
+                core domains is introduced, capturing real-world challenges.</div>
+            </div>
+            <div class="icon-item">
+              <img src="./static/img/icons/eval.svg" alt="Benchmarking Icon">
+              <div><strong>Comprehensive Evaluations</strong>: We presents systematic evaluations across a wide range of
+                agents powered by LLMs, VLMs, and GUI action models.</div>
+            </div>
+          </div> -->
+
+          <div class="button-container" style="display: none;">
+            <!-- External links hidden -->
+          </div>
+        </div>
+        <div class="header-image">
+          <!-- <img draggable="false" src="static/img/scienceboard-cover.jpeg" alt="Teaser Image" class="teaser-image"> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <d-article>
+    <div class="byline" style="grid-column-start: 3; grid-column-end: 13;">
+      <div class="byline-container">
+        <p style="font-size: 1.2em;">
+          Fangzhi Xu* &emsp;
+          Hang Yan* &emsp;
+          Qiushi Sun* &emsp;
+          <br>
+          Jinyang Wu &emsp;
+          Zixian Huang &emsp;
+          Muye Huang &emsp;
+          Jingyang Gong &emsp;
+          Zichen Ding &emsp;
+          Kanzhi Cheng &emsp;
+          <br>
+          Yian Wang &emsp;
+          Xinyu Che &emsp;
+          Zeyi Sun &emsp;
+          Jian Zhang &emsp;
+          Zhangyue Yin &emsp;
+          Haoran Luo &emsp;
+          <br>
+          Xuanjing Huang &emsp;
+          Ben Kao &emsp;
+          Jun Liu &emsp;
+          Qika Lin &emsp;
+        </p>
+        <p class="logos-between">
+          <img src="public/logos/xjtu.png" style="height: 80px;">
+          <img src="public/logos/hku.png" style="height: 80px;">
+          <img src="public/logos/tsinghua.png" style="height: 80px;">
+          <img src="public/logos/ailab.png" style="height: 80px;">
+          <img src="public/logos/Nanjing_University_Logo.svg.png" style="height: 80px;">
+          <img src="public/logos/NUS.png" style="height: 80px;">
+          <img src="public/logos/Fudan_University_Logo.svg.png" style="height: 80px;">
+          <img src="public/logos/ntu.png" style="height: 80px;">
+        </p>
+        <!-- <p style="display: flex; flex-direction: row; justify-content: center; align-items: center">
+          <span style="font-size: 32px; color: #a83102"> ICLR 2026 </span>
+          <img src="static/img/iclr-navbar-logo-3.svg" style="height: 50px;">
+        </p> -->
+      </div>
+    </div>
+
+    <p class="text abstract">
+      <!-- <strong>vision-<i>centric</i></strong> -->
+      The rapid advancement of Large Language Mod-
+      els (LLMs) has catalyzed the development of
+      autonomous agents capable of navigating com-
+      plex environments. However, existing evalu-
+      ations primarily adopt a deductive paradigm,
+      where agents execute tasks based on explicitly
+      provided rules and static goals, often within
+      limited planning horizons. Crucially, this ne-
+      glects the inductive necessity for agents to dis-
+      cover latent transition laws from experience au-
+      tonomously, which is the cornerstone for en-
+      abling agentic foresight and sustaining strategic
+      coherence. To bridge this gap, we introduce
+      ODYSSEYARENA, which re-centers agent eval-
+      uation on long-horizon, active, and inductive in-
+      teractions. We formalize and instantiate four prim-
+      itives, translating abstract transition dynamics
+      into concrete interactive environments. Build-
+      ing upon this, we establish ODYSSEYARENA-
+      LITE for standardized benchmarking, providing
+      a set of 120 tasks to measure an agent’s in-
+      ductive efficiency and long-horizon discovery.
+      Pushing further, we introduce ODYSSEYARENA-
+      CHALLENGE to stress-test agent stability across
+      extreme interaction horizons (e.g., > 200 steps).
+      Extensive experiments on 15+ leading LLMs
+      reveal that even frontier models exhibit a defi-
+      ciency in inductive scenarios, identifying a criti-
+      cal bottleneck in the pursuit of autonomous dis-
+      covery in complex environments.
+
+      <br><br>
+      <!-- ScienceBoard is built around the following components, aiming for synthesizing high-quality trajectory data for
+      GUI
+      agents:
+    <ol class="text">
+      <li><strong><a href="#visual_representations">&sect;Computer-using Agents for Scientific Discovery</a></strong>:
+        ScienceBoard pioneers the application of computer-using agents to real-world scientific discovery, enabling
+        digital automation for complex science tasks.</li>
+      <li><strong><a href="#connector_design">&sect;Infra for Scientific Discovery</a></strong>: ScienceBoard provides a
+        visually rich and dynamically configurable Ubuntu-based VM serves as the scientific playground, supporting both
+        GUI and CLI interactions and enabling agents to perform end-to-end tasks like simulation and computation.
+      </li>
+      <li><strong><a href="#instruction_data">&sect;Challenging Benchmark</a></strong>: We curate a benchmark of 169
+        human-annotated tasks across 6 scientific domains, each paired with automated evaluation functions for reliable
+        task validation.</li>
+      <li><strong><a href="#eval-result">&sect;Systematic Evaluation and Analysis</a></strong>: Comprehensive
+        experiments are conducted with state-of-the-art LLMs, VLMs, and GUI action models. We further provide insights
+        into current agent limitations and guiding future research.</li>
+    </ol> -->
+    </p>
+
+    <div class="icon-row">
+      <!-- <a href="#main-pipeline" class="icon-link">
+        <img src="static/img/icons/visual.svg" alt="Visual Representation Logo" class="icon">
+        Main<br>Pipeline
+      </a> -->
+      <!-- <a href="#connector_design" class="icon-link">
+        <img src="static/img/icons/connector.svg" alt="Connector Logo" class="icon">
+        Perform<br>Design
+      </a> -->
+      <!-- <a href="#instruction_data" class="icon-link">
+        <img src="static/img/icons/data.svg" alt="Data Logo" class="icon">
+        Instruction<br>Data
+      </a> -->
+      <!-- <a href="#eval-result" class="icon-link">
+        <img src="static/img/icons/eval.svg" alt="Eval Logo" class="icon">
+        Evaluation<br>Results
+      </a>
+      <a href="#in-depth-anal" class="icon-link">
+        <img src="static/img/icons/data.svg" alt="Data Logo" class="icon">
+        In-depth<br>Analysis
+      </a> -->
+      <!-- External link removed -->
+    </div>
+
+    <!-- <p class="click-hint" style="width: 85%;">
+      <img src="static/img/icons/click.gif" style="width: 1.5rem">
+      <strong>Click to jump to each section.</strong>
+    </p> -->
+
+    <!-- 
+    <p class="text abstract">
+      We will release all <a href="https://github.com/OS-Copilot/ScienceBoard" target="_blank">codes for infra</a>,
+      benchmark evaluation pipelines and more
+      details. We hope ScienceBoard can inspire and boost future research advancing computer-using agents in scientific
+      workflows.
+    </p>
+
+    <p class="text">
+    <p class="text ol"><b>2026-01-26</b> ScienceBoard is accepted by ICLR 2026! 🎉. </p>
+    <p class="text ol"><b>2025-08-28</b> We release <a href="https://arxiv.org/abs/2508.20096">CODA</a><d-cite
+        key="sun2025coda"></d-cite>, a dual-brain agent that achieves SOTA on ScienceBoard 🧠. </p>
+    <p class="text ol"><b>2025-06-30</b> We release new evaluation results (GUI-Actor, UI-TARS-1.5) and <a
+        href="https://huggingface.co/datasets/OS-Copilot/ScienceBoard-Traj/tree/main">agent trajectories</a>. 🎊 </p>
+    <p class="text ol"><b>2025-06-08</b> ScienceBoard will be presented at <a
+        href="https://www.icml-computeruseagents.com/">WCUA@ICML 2025</a> as an oral paper! 🚀 </p>
+    <p class="text ol"><b>2025-06-04</b> We release the <a
+        href="https://huggingface.co/OS-Copilot/ScienceBoard-Env">virtual machine snapshot</a> of ScienceBoard. 🌏 </p>
+    <p class="text ol"><b>2025-05-27</b> Initial release of our <a href="https://arxiv.org/abs/2505.19897">paper</a>,
+      environment, benchmark, and <a href="#">🌐 Project Website</a>. Check it out! 🚀 </p>
+    </p> -->
+
+    <h1 class="text" id="main-pipeline">Environment Demonstration</h1>
+
+    <p class="text">
+      We demonstrate four calibrated environments: <em>Turn On Lights (Discrete Symbolic Rules)</em>, <em>AI Trading
+        (Continuous Stochastic Dynamics) </em>, <em>Energy Dispatch (Continuous Dynamic Systems) </em>, and
+      <em>Repo System (Relational Graph Structures)</em>.
+    </p>
+
+    <img src="public/demos.png" width="150%">
+
+
+    <!-- <p class="text">
+      computer-using agents in ScienceBoard can simulate the real behavior of human scientists operating complex tools.
+      This foundation sets the stage for developing AI co-scientists that can assist, or even automate the scientific
+      research lifecycle.
+    </p>
+
+
+    <h1 class="text">ScienceBoard Environment</h1> -->
+
+    <!-- <p class="text">
+      The ScienceBoard Environment offers a dynamic, multimodal platform where agents interact with real scientific
+      software in a virtualized desktop. Built on an Ubuntu-based virtual machine, this environment integrates graphical
+      and command-line interfaces, enabling agents to complete tasks just as human researchers would—by clicking,
+      typing, or issuing terminal commands.
+    </p>
+
+    <img src="public/arch.gif" width="100%">
+
+    <p class="text">
+      Each software is carefully integrated and adapted to expose internal application states, allowing for fine-grained
+      state tracking and automatic evaluation. Agents perceive the environment through textual (a11ytree), visual
+      (screenshot), or hybrid observation modalities, and operate via a unified action space covering GUI actions, CLI
+      commands, and external API calls.
+    </p> -->
+
+
+
+    <div id='visual-representation' class="viusal-representation-block">
+      <h1 class="text" id="eval-result"></h1>
+
+      <h2 class="text">Leaderboard of OdysseyArena-Lite</h2>
+
+      <p class="text">
+        Performance comparison on four environments. We provide three different reasoning effort of gpt-oss-120b. For
+        <em>AI Trading</em> environment, we report the profit rate and pass@4 is calculated based on the highest profit
+        of each task. For other three environments, we report the success rate. <span
+          style="background-color: #E8F4F5;">Colored Rows</span> represent proprietary models. The best results are in
+        <strong>bold</strong>.
+      </p>
+
+      <div class="text" id="leaderboard" style="height: 750px; margin-top: 0;"></div>
+
+      <!-- <p class="text">
+        <strong>Domain-Specific Challenges:</strong> Agents perform relatively well on algebra and biochemistry tasks,
+        but struggle significantly in geospatial and astronomy domains. This gap stems from two factors: (1) GUI-heavy
+        interactions in GIS/astronomy are harder to ground visually than CLI-based tasks, and (2) these domains feature
+        dense, complex visuals (e.g., maps, star charts) that strain current models' spatial reasoning abilities.</li>
+      </p>
+      <p class="text">
+        <strong>Impact of Observations:</strong> Multimodal input improves performance. The best results come from
+        combining screenshots with a11ytree representations, offering both visual grounding and structured element data.
+        In contrast, Set-of-Mark (SoM) sometimes introduces noise, especially in visually crowded interfaces like
+        Celestia.
+      </p> -->
+
+      <!-- <h2 class="text" id="in-depth-anal">Disentangled Planning and Action </h2> -->
+      <!-- <p class="text">
+        Then, we evaluate OS-Genesis on web task, using challenging online benchmark: WebArena<d-cite
+          key="zhou2024webarena"></d-cite> as the testbed.
+        The results are shown in <a href="#leaderboard-seeact">Table 2</a>
+      </p> -->
+
+      <!-- <p class="text">
+        <strong>Modular Design Boosts Performance:</strong> ScienceBoard experiments reveal that separating planning
+        from execution significantly improves performance. When GPT-4o is used solely as a planner and paired with a
+        specialized VLM or GUI action model like OS-ATLAS<d-cite key="wu2025osatlas"></d-cite> or UI-TARS<d-cite
+          key="qin2025uitars"></d-cite> as the executor, success rates increase notably across domains.
+      </p>
+
+      <div class="text" id="leaderboard-seeact" style="height: 265px;"></div>
+
+      <div class="text"><strong>Implication</strong>: These findings highlight the potential of building multi-agent
+        systems where
+        different components specialize in distinct subtasks—planning, grounding, or domain understanding—paving the way
+        for scalable and adaptable scientific agents.</div>
+    </div> -->
+
+      <div id="conclusion" style="position: relative; margin-top: 40px; margin-bottom: 0px;">
+        <h2 class="text" style="margin-top:0px; margin-bottom:10px">Conclusion</h2>
+        <p class="text">
+          ODYSSEYARENA introduces a paradigm shift in agentic evalua-
+          tion by transitioning from deductive instruction-following
+          to long-horizon, inductive modeling. We formalize abstract
+          environment dynamics into four structural primitives and
+          instantiate them via ODYSSEYARENA, and then establish
+          a standardized framework for the reproducible evaluation
+          of an agent’s ability to discover latent transition laws. The
+          observed low-performance plateau across multiple flagships
+          reveals a fundamental inductive bottleneck that scaling alone
+          cannot resolve, underscoring the necessity of moving be-
+          yond deductive compliance. Future research toward more
+          agentic intelligence should prioritize architectures capa-
+          ble of distilling latent transition laws from raw experience,
+          thereby bridging the gap between passive rule-following
+          and active discovery in complex, dynamic worlds.
+        </p>
+      </div>
+
+      <!-- <div id="Acknowledgement" style="position: relative; margin-top: 40px; margin-bottom: 0px;">
+      <h2 class="text" style="margin-top:0px; margin-bottom:10px">Acknowledgement</h2>
+      <p class="text">
+        We would like to thank <a href="https://github.com/xlang-ai/OSWorld" target="_blank">OSWorld</a> <d-cite
+          key="OSWorld"></d-cite> authors for
+        helping us tackle various issues in building infra and task evaluation, as well as the <a
+          href="https://cambrian-mllm.github.io/" target="_blank">Cambrian</a> authors for providing this webpage
+        template.
+      </p>
+    </div> -->
+
+  </d-article>
+  <!-- <d-appendix>
+    <h3>BibTeX</h3>
+    <p class="bibtex">
+      @article{sun2025scienceboard, <br>
+      &nbsp;&nbsp; title={ScienceBoard: Evaluating Multimodal Autonomous Agents in Realistic Scientific Workflows}, <br>
+      &nbsp;&nbsp; author={Qiushi Sun and Zhoumianze Liu and Chang Ma and Zichen Ding and Fangzhi Xu and Zhangyue Yin
+      and Haiteng Zhao and Zhenyu Wu and Kanzhi Cheng and Zhaoyang Liu and others}, <br>
+      &nbsp;&nbsp; year={2025}, <br>
+      &nbsp;&nbsp; journal={arXiv preprint arXiv:2505.19897} <br>
+      }
+    </p>
+
+    <d-footnote-list></d-footnote-list>
+    <d-citation-list></d-citation-list>
+  </d-appendix> -->
+  <!-- bibliography will be inlined during Distill pipeline's pre-rendering -->
+  <d-bibliography src="./bibliography.bib"></d-bibliography>
+</body>
+
+
+<script>
+  Chart.defaults.font.family = "Charter";
+
+  const gridOptions = {
+    rowData: [
+      {
+        icon: "google-gemini-icon.svg",
+        model: "Gemini 3 Pro Preview",
+        isProprietary: true,
+        turnOnLightsAvg4: 44.17,
+        turnOnLightsPass4: 76.67,
+        aiTradingAvg4: "+67.71%",
+        aiTradingPass4: "+76.94%",
+        energyDispatchAvg4: 30.00,
+        energyDispatchPass4: 36.67,
+        repoSystemAvg4: 65.83,
+        repoSystemPass4: 80.00
+      },
+      {
+        icon: "gpt.png",
+        model: "GPT-5",
+        isProprietary: true,
+        turnOnLightsAvg4: 28.33,
+        turnOnLightsPass4: 40.00,
+        aiTradingAvg4: "+17.32%",
+        aiTradingPass4: "+20.47%",
+        energyDispatchAvg4: 23.33,
+        energyDispatchPass4: 40.00,
+        repoSystemAvg4: 62.50,
+        repoSystemPass4: 83.33
+      },
+      {
+        icon: "google-gemini-icon.svg",
+        model: "Gemini 2.5 Pro",
+        isProprietary: true,
+        turnOnLightsAvg4: 29.17,
+        turnOnLightsPass4: 50.00,
+        aiTradingAvg4: "+33.02%",
+        aiTradingPass4: "+40.12%",
+        energyDispatchAvg4: 10.83,
+        energyDispatchPass4: 26.67,
+        repoSystemAvg4: 50.00,
+        repoSystemPass4: 66.67
+      },
+      {
+        icon: "gpt.png",
+        model: "gpt.png",
+        isProprietary: false,
+        turnOnLightsAvg4: 27.50,
+        turnOnLightsPass4: 40.00,
+        aiTradingAvg4: "+23.27%",
+        aiTradingPass4: "+27.47%",
+        energyDispatchAvg4: 0.00,
+        energyDispatchPass4: 0.00,
+        repoSystemAvg4: 18.33,
+        repoSystemPass4: 33.33
+      },
+      {
+        icon: "deepseek.png",
+        model: "DeepSeek-V3.2",
+        isProprietary: false,
+        turnOnLightsAvg4: 18.33,
+        turnOnLightsPass4: 36.67,
+        aiTradingAvg4: "+8.62%",
+        aiTradingPass4: "+12.88%",
+        energyDispatchAvg4: 0.00,
+        energyDispatchPass4: 0.00,
+        repoSystemAvg4: 48.33,
+        repoSystemPass4: 76.67
+      },
+      {
+        icon: "grok.png",
+        model: "Grok 4 Fast",
+        isProprietary: true,
+        turnOnLightsAvg4: 14.17,
+        turnOnLightsPass4: 40.00,
+        aiTradingAvg4: "+5.70%",
+        aiTradingPass4: "+11.52%",
+        energyDispatchAvg4: 0.00,
+        energyDispatchPass4: 0.00,
+        repoSystemAvg4: 38.33,
+        repoSystemPass4: 60.00
+      },
+      {
+        icon: "qwen.png",
+        model: "Qwen3-235B-A22B-Instruct",
+        isProprietary: false,
+        turnOnLightsAvg4: 15.00,
+        turnOnLightsPass4: 43.33,
+        aiTradingAvg4: "+11.26%",
+        aiTradingPass4: "+17.67%",
+        energyDispatchAvg4: 0.00,
+        energyDispatchPass4: 0.00,
+        repoSystemAvg4: 15.83,
+        repoSystemPass4: 36.67
+      },
+      {
+        icon: "qwen.png",
+        model: "Qwen3-30B-A3B-Instruct",
+        isProprietary: false,
+        turnOnLightsAvg4: 11.67,
+        turnOnLightsPass4: 26.67,
+        aiTradingAvg4: "+4.76%",
+        aiTradingPass4: "+8.94%",
+        energyDispatchAvg4: 0.00,
+        energyDispatchPass4: 0.00,
+        repoSystemAvg4: 26.67,
+        repoSystemPass4: 50.00
+      },
+      {
+        icon: "gpt.png",
+        model: "gpt-oss-120b (medium)",
+        isProprietary: false,
+        turnOnLightsAvg4: 16.67,
+        turnOnLightsPass4: 40.00,
+        aiTradingAvg4: "+3.21%",
+        aiTradingPass4: "+7.09%",
+        energyDispatchAvg4: 0.00,
+        energyDispatchPass4: 0.00,
+        repoSystemAvg4: 2.50,
+        repoSystemPass4: 6.67
+      },
+      {
+        icon: "glm.png",
+        model: "GLM-4-32B-0414",
+        isProprietary: false,
+        turnOnLightsAvg4: 14.17,
+        turnOnLightsPass4: 33.33,
+        aiTradingAvg4: "+3.14%",
+        aiTradingPass4: "+7.24%",
+        energyDispatchAvg4: 0.00,
+        energyDispatchPass4: 0.00,
+        repoSystemAvg4: 9.17,
+        repoSystemPass4: 30.00
+      },
+      {
+        icon: "gpt.png",
+        model: "gpt-oss-120b (low)",
+        isProprietary: false,
+        turnOnLightsAvg4: 7.50,
+        turnOnLightsPass4: 13.33,
+        aiTradingAvg4: "+2.02%",
+        aiTradingPass4: "+5.70%",
+        energyDispatchAvg4: 0.00,
+        energyDispatchPass4: 0.00,
+        repoSystemAvg4: 9.17,
+        repoSystemPass4: 26.67
+      },
+      {
+        icon: "meta.png",
+        model: "Llama 3.3 70B Instruct",
+        isProprietary: false,
+        turnOnLightsAvg4: 6.67,
+        turnOnLightsPass4: 16.67,
+        aiTradingAvg4: "+0.77%",
+        aiTradingPass4: "+2.01%",
+        energyDispatchAvg4: 0.00,
+        energyDispatchPass4: 0.00,
+        repoSystemAvg4: 19.17,
+        repoSystemPass4: 40.00
+      },
+      {
+        icon: "qwen.png",
+        model: "Qwen3-4B-Instruct",
+        isProprietary: false,
+        turnOnLightsAvg4: 0.00,
+        turnOnLightsPass4: 0.00,
+        aiTradingAvg4: "+1.67%",
+        aiTradingPass4: "+6.95%",
+        energyDispatchAvg4: 0.00,
+        energyDispatchPass4: 0.00,
+        repoSystemAvg4: 13.33,
+        repoSystemPass4: 26.67
+      },
+      {
+        icon: "meta.png",
+        model: "Llama 3.1 8B Instruct",
+        isProprietary: false,
+        turnOnLightsAvg4: 6.67,
+        turnOnLightsPass4: 20.00,
+        aiTradingAvg4: "+0.55%",
+        aiTradingPass4: "+3.07%",
+        energyDispatchAvg4: 0.00,
+        energyDispatchPass4: 0.00,
+        repoSystemAvg4: 0.00,
+        repoSystemPass4: 0.00
+      },
+      {
+        icon: "glm.png",
+        model: "GLM-4-9B-Chat",
+        isProprietary: false,
+        turnOnLightsAvg4: 0.00,
+        turnOnLightsPass4: 0.00,
+        aiTradingAvg4: "-0.18%",
+        aiTradingPass4: "+0.41%",
+        energyDispatchAvg4: 0.00,
+        energyDispatchPass4: 0.00,
+        repoSystemAvg4: 0.00,
+        repoSystemPass4: 0.00
+      }
+    ],
+    columnDefs: [
+      {
+        field: "icon",
+        headerName: "",
+        cellRenderer: function (params) {
+          if (params.value) {
+            return `<div style='display: flex; align-items: center; justify-content: center; height: 100%;'><img src='public/logos/${params.value}' style='height: 20px;'/></div>`
+          }
+          return "";
+        },
+        lockPosition: true,
+        suppressMovable: true,
+        flex: 0.3,
+        cellStyle: {
+          padding: '8px',
+          verticalAlign: 'middle'
+        }
+      },
+      {
+        field: "model",
+        headerName: "Model",
+        flex: 2,
+        cellRenderer: (params) => {
+          const value = params.value || '';
+          const isProprietary = params.data?.isProprietary;
+          const style = isProprietary ? 'background-color: #E8F4F5;' : '';
+          return `<div style='display: flex; align-items: center; height: 100%; ${style}'>${value}</div>`;
+        },
+        cellStyle: (params) => {
+          if (params.data?.isProprietary) {
+            return { backgroundColor: '#E8F4F5', verticalAlign: 'middle' };
+          }
+          return { verticalAlign: 'middle' };
+        }
+      },
+      {
+        headerName: "Turn On Lights",
+        children: [
+          {
+            field: "turnOnLightsAvg4",
+            headerName: "Avg@4",
+            flex: 0.8,
+            valueFormatter: (params) => {
+              if (typeof params.value === 'number') {
+                return params.value.toFixed(2);
+              }
+              return params.value || '';
+            },
+            cellStyle: (params) => {
+              if (params.data?.isProprietary) {
+                return { backgroundColor: '#E8F4F5' };
+              }
+              return {};
+            },
+            cellRenderer: (params) => {
+              const value = params.value;
+              const isBold = params.data?.model === "Gemini 3 Pro Preview";
+              if (typeof value === 'number') {
+                return isBold ? `<strong>${value.toFixed(2)}</strong>` : value.toFixed(2);
+              }
+              return isBold ? `<strong>${value || ''}</strong>` : (value || '');
+            }
+          },
+          {
+            field: "turnOnLightsPass4",
+            headerName: "Pass@4",
+            flex: 0.8,
+            valueFormatter: (params) => {
+              if (typeof params.value === 'number') {
+                return params.value.toFixed(2);
+              }
+              return params.value || '';
+            },
+            cellStyle: (params) => {
+              if (params.data?.isProprietary) {
+                return { backgroundColor: '#E8F4F5' };
+              }
+              return {};
+            },
+            cellRenderer: (params) => {
+              const value = params.value;
+              const isBold = params.data?.model === "Gemini 3 Pro Preview";
+              if (typeof value === 'number') {
+                return isBold ? `<strong>${value.toFixed(2)}</strong>` : value.toFixed(2);
+              }
+              return isBold ? `<strong>${value || ''}</strong>` : (value || '');
+            }
+          }
+        ]
+      },
+      {
+        headerName: "AI Trading",
+        children: [
+          {
+            field: "aiTradingAvg4",
+            headerName: "Avg@4",
+            flex: 0.8,
+            cellStyle: (params) => {
+              if (params.data?.isProprietary) {
+                return { backgroundColor: '#E8F4F5' };
+              }
+              return {};
+            },
+            cellRenderer: (params) => {
+              const value = params.value;
+              const isBold = params.data?.model === "Gemini 3 Pro Preview";
+              return isBold ? `<strong>${value || ''}</strong>` : (value || '');
+            }
+          },
+          {
+            field: "aiTradingPass4",
+            headerName: "Pass@4",
+            flex: 0.8,
+            cellStyle: (params) => {
+              if (params.data?.isProprietary) {
+                return { backgroundColor: '#E8F4F5' };
+              }
+              return {};
+            },
+            cellRenderer: (params) => {
+              const value = params.value;
+              const isBold = params.data?.model === "Gemini 3 Pro Preview";
+              return isBold ? `<strong>${value || ''}</strong>` : (value || '');
+            }
+          }
+        ]
+      },
+      {
+        headerName: "Energy Dispatch",
+        children: [
+          {
+            field: "energyDispatchAvg4",
+            headerName: "Avg@4",
+            flex: 0.8,
+            valueFormatter: (params) => {
+              if (typeof params.value === 'number') {
+                return params.value.toFixed(2);
+              }
+              return params.value || '';
+            },
+            cellStyle: (params) => {
+              if (params.data?.isProprietary) {
+                return { backgroundColor: '#E8F4F5' };
+              }
+              return {};
+            },
+            cellRenderer: (params) => {
+              const value = params.value;
+              const isBold = params.data?.model === "Gemini 3 Pro Preview";
+              if (typeof value === 'number') {
+                return isBold ? `<strong>${value.toFixed(2)}</strong>` : value.toFixed(2);
+              }
+              return isBold ? `<strong>${value || ''}</strong>` : (value || '');
+            }
+          },
+          {
+            field: "energyDispatchPass4",
+            headerName: "Pass@4",
+            flex: 0.8,
+            valueFormatter: (params) => {
+              if (typeof params.value === 'number') {
+                return params.value.toFixed(2);
+              }
+              return params.value || '';
+            },
+            cellStyle: (params) => {
+              if (params.data?.isProprietary) {
+                return { backgroundColor: '#E8F4F5' };
+              }
+              return {};
+            },
+            cellRenderer: (params) => {
+              const value = params.value;
+              const isBold = params.data?.model === "GPT-5";
+              if (typeof value === 'number') {
+                return isBold ? `<strong>${value.toFixed(2)}</strong>` : value.toFixed(2);
+              }
+              return isBold ? `<strong>${value || ''}</strong>` : (value || '');
+            }
+          }
+        ]
+      },
+      {
+        headerName: "Repo System",
+        children: [
+          {
+            field: "repoSystemAvg4",
+            headerName: "Avg@4",
+            flex: 0.8,
+            valueFormatter: (params) => {
+              if (typeof params.value === 'number') {
+                return params.value.toFixed(2);
+              }
+              return params.value || '';
+            },
+            cellStyle: (params) => {
+              if (params.data?.isProprietary) {
+                return { backgroundColor: '#E8F4F5' };
+              }
+              return {};
+            },
+            cellRenderer: (params) => {
+              const value = params.value;
+              const isBold = params.data?.model === "Gemini 3 Pro Preview";
+              if (typeof value === 'number') {
+                return isBold ? `<strong>${value.toFixed(2)}</strong>` : value.toFixed(2);
+              }
+              return isBold ? `<strong>${value || ''}</strong>` : (value || '');
+            }
+          },
+          {
+            field: "repoSystemPass4",
+            headerName: "Pass@4",
+            flex: 0.8,
+            valueFormatter: (params) => {
+              if (typeof params.value === 'number') {
+                return params.value.toFixed(2);
+              }
+              return params.value || '';
+            },
+            cellStyle: (params) => {
+              if (params.data?.isProprietary) {
+                return { backgroundColor: '#E8F4F5' };
+              }
+              return {};
+            },
+            cellRenderer: (params) => {
+              const value = params.value;
+              const isBold = params.data?.model === "GPT-5";
+              if (typeof value === 'number') {
+                return isBold ? `<strong>${value.toFixed(2)}</strong>` : value.toFixed(2);
+              }
+              return isBold ? `<strong>${value || ''}</strong>` : (value || '');
+            }
+          }
+        ]
+      }
+    ],
+    getRowStyle: (params) => {
+      if (params.data?.isProprietary) {
+        return { backgroundColor: '#E8F4F5' };
+      }
+      return {};
+    }
+  };
+  const gridElement = document.querySelector("#leaderboard");
+  document.gridApi = agGrid.createGrid(gridElement, gridOptions);
+
+  const gridOptionsSeeact = {
+    rowData: [
+      {
+        icon: "Microsoft_icon.svg.png",
+        model: "GPT-4o (2024-08-06) -> GUI-Actor w/ screenshot",
+        alg: 21.88,
+        bio: 44.83,
+        gis: 2.94,
+        ast: 12.12,
+        acc: 20.44
+      },
+      {
+        icon: "pjlab.png",
+        model: "GPT-4o (2024-08-06) -> OS-Atlas-Pro-7B w/ screenshot",
+        alg: 6.25,
+        bio: 10.34,
+        gis: 0.00,
+        ast: 3.03,
+        acc: 4.92
+      },
+      {
+        icon: "osu-nlp.jpg",
+        model: "GPT-4o (2024-08-06) -> UGround-V1-7B w/ screenshot",
+        alg: 0.00,
+        bio: 3.45,
+        gis: 0.00,
+        ast: 3.03,
+        acc: 1.62
+      },
+      {
+        icon: "qwen.png",
+        model: "GPT-4o (2024-08-06) -> Qwen2.5-VL-7B w/ screenshot",
+        alg: 12.50,
+        bio: 34.48,
+        gis: 11.76,
+        ast: 9.09,
+        acc: 16.96
+      },
+      {
+        icon: "ui_tars_logo.png",
+        model: "GPT-4o (2024-08-06) -> UI-TARS-72B w/ screenshot",
+        alg: 3.23,
+        bio: 10.34,
+        gis: 5.88,
+        ast: 6.06,
+        acc: 6.38
+      }
+    ],
+    columnDefs: [
+      {
+        field: "icon",
+        headerName: "Org.",
+        cellRenderer: function (params) {
+          return `<img src='public/logos/${params.value}'/>`
+        },
+        lockPosition: true,
+        suppressMovable: true,
+        flex: 0.5
+      },
+      {
+        field: "model",
+        headerName: "Settings",
+        flex: 4.5
+      },
+      {
+        field: "acc",
+        headerName: "% Acc",
+        flex: 1,
+        valueFormatter: (params) => params.value?.toFixed(2),
+        sort: "desc"
+      },
+      {
+        field: "alg",
+        headerName: "% Alg",
+        flex: 1,
+        valueFormatter: (params) => params.value?.toFixed(2),
+      },
+      {
+        field: "bio",
+        headerName: "% Biochem",
+        flex: 1,
+        valueFormatter: (params) => params.value?.toFixed(2),
+      },
+      {
+        field: "gis",
+        headerName: "% GIS",
+        flex: 1,
+        valueFormatter: (params) => params.value?.toFixed(2),
+      },
+      {
+        field: "ast",
+        headerName: "% Astron",
+        flex: 1,
+        valueFormatter: (params) => params.value?.toFixed(2),
+      }
+    ],
+    isExternalFilterPresent: () => true,
+    doesExternalFilterPass: doesExternalFilterPass
+  };
+  const gridElementSeeact = document.querySelector("#leaderboard-seeact");
+  agGrid.createGrid(gridElementSeeact, gridOptionsSeeact);
+</script>
+
+</html>
